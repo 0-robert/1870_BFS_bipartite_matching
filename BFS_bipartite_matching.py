@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 from typing import Optional, List
 import sys
 
+
+'''All class definitions'''
 # Defining Vertex class to  be used, we need a list of neighbor connections and if it's matched, and predecessor also, (and visited), and group
 @dataclass
 class Vertex:
@@ -89,7 +91,7 @@ G.add_edge(X[get("z")], Y[get("6")])
 
 
 
-# Breadth first search logic (aka hungarian algorithm)
+''' BFS logic (aka hungarian algorithm) '''
 
 unmatched_vertices_X = [vertex for vertex in X if vertex.matched_with==None] 
 unmatched_vertices_Y = [vertex for vertex in Y if vertex.matched_with==None]
@@ -101,10 +103,10 @@ if unmatched_vertices_X is None or unmatched_vertices_Y is None: #We need at lea
 vertex_processing_queue = list()
 current_vertex = None # type -> Vertex
 
+
 def explore_neighbors(_vertex: Vertex, should_be_matched):
 
     for neighbor in _vertex.neighbors:
-
 
         neighbor_matched = neighbor.matched_with != None # if it's not matched with anything, then it's unmatched
         edge_in_matching = (_vertex.matched_with == neighbor)
@@ -117,12 +119,8 @@ def explore_neighbors(_vertex: Vertex, should_be_matched):
             
             if not neighbor in vertex_processing_queue:
                 vertex_processing_queue.append(neighbor)   #add to queue and continue, no repeats          
-            
              
-
-            
     print([v.label for v in vertex_processing_queue])  #print queue members for each iteration     
-
     _vertex.visited = True
 
 
@@ -130,6 +128,8 @@ polarity = False #We want matching, non matching, matching, etc
 vertex_processing_queue = unmatched_vertices_Y # initiate with unmatched vertices in y
 print([v.label for v in vertex_processing_queue])
 
+
+# Repeated neighbor explore until finish
 while len(vertex_processing_queue) != 0:
     vertex_to_process = vertex_processing_queue.pop(0) # Pop from processing list
     polarity = True if vertex_to_process.group is "X" else False # Matching -> non matching -> matching logic defined by which side it's on
@@ -142,12 +142,7 @@ while len(vertex_processing_queue) != 0:
         x = result.predecessor
         while x:
             augmented_path.insert(0, x)
-
             x = x.predecessor #Repeated backtracking until vertex with no predecessor   
         
         print(f'Augmented Path Found: {[v.label for v in augmented_path]}')
-        break
-    
-    polarity = not polarity
-        
-
+        break        
