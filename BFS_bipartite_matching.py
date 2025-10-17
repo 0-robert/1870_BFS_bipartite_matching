@@ -124,10 +124,8 @@ def explore_neighbors(_vertex: Vertex, should_be_matched):
     _vertex.visited = True
 
 
-polarity = False #We want matching, non matching, matching, etc
 vertex_processing_queue = unmatched_vertices_Y # initiate with unmatched vertices in y
 print([v.label for v in vertex_processing_queue])
-
 
 # Repeated neighbor explore until finish
 while len(vertex_processing_queue) != 0:
